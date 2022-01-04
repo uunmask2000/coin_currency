@@ -9,6 +9,7 @@
  * 嚴格紀律
  */
 
+# use CoinCurrency
 namespace uunmask2000_kk\CoinCurrency;
 
 use Library\CryptoCompare;
