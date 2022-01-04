@@ -55,7 +55,7 @@ class Freecurrencyrates
             $array = explode(",", $array[3]);
             // dd($array);
             # Array[0] Data , Array[1] Price
-            $output['A_B']     = $from . '-' . $to;
+            $output['A_B']      = $from . '-' . $to;
             $output['rate']     = $array[1];
             $output['original'] = $array[1];
 
