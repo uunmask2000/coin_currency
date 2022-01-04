@@ -17,8 +17,9 @@
     },
     "require": {
         "php": ">=7.1",
+        "ext-simplexml": "*",
         "ext-xml": "*",
-        "ext-simplexml": "*"
+        "guzzlehttp/guzzle": "^7.4"
     },
     "require-dev": {
         "ext-dom": "*",
@@ -30,7 +31,7 @@
     },
     "config": {
         "platform": {
-            "php": "7.0.0"
+            "php": "7.4.0"
         },
         "optimize-autoloader": true,
         "sort-packages": true
