@@ -3,7 +3,7 @@
 ```text
 require 'vendor/autoload.php';
 
-use \uunmask2000_kk\coin_currency\CoinCurrency;
+use \uunmask2000_kk\CoinCurrency\CoinCurrency;
 
 $class = new CoinCurrency();
 
