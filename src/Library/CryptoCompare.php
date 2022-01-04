@@ -20,8 +20,12 @@ class CryptoCompare
     {
     }
 
-    public static function Rate_check($from = 'usdt', $to = 'usdt')
+    public static function call_A2B($from = 'usdt', $to = 'usdt')
     {
+        $output['A_B']     = $from . '-' . $to;
+        $output['rate']     = 0;
+        $output['original'] = 0;
+
         try {
             $cache_key = 'check_' . $from . $to . date("Ymd");
             //使用GuzzleHTTP发送get请求
@@ -42,9 +46,12 @@ class CryptoCompare
 
             # 平均 0.88
             $resp = bcmul($resp, 0.98, 3);
-            return $resp;
+            // return $resp;
+            $output['rate']     =            $resp;
+            $output['original'] =            $resp;
+            return $output;
         } catch (GuzzleException $e) {
-            return 0;
+            return $output;
             // return $dd->simple_json(0, $th->getMessage());
         }
     }
