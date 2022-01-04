@@ -19,11 +19,7 @@ class CryptoCompare
     public function __construct()
     {
     }
-    /**
-     * @param  $from
-     * @param  $to
-     * @return int
-     */
+
     public static function Rate_check($from = 'usdt', $to = 'usdt')
     {
         try {
@@ -45,7 +41,7 @@ class CryptoCompare
             $resp = $resp[$to];
 
             # 平均 0.88
-            $resp = \app\Library\Math::__bcmul($resp, 0.98, 3);
+            $resp = bcmul($resp, 0.98, 3);
             return $resp;
         } catch (GuzzleException $e) {
             return 0;
