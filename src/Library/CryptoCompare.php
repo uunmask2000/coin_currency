@@ -31,7 +31,8 @@ class CryptoCompare
         $output['original'] = 0;
 
         try {
-
+            $from   = strtoupper($from);
+            $to     = strtoupper($to);
             if ($from == $to) {
                 $output['rate']     = 1;
                 $output['original'] = 1;
@@ -40,8 +41,7 @@ class CryptoCompare
             //使用GuzzleHTTP发送get请求
             $url    = 'https://min-api.cryptocompare.com/data/price';
             $client = new Client();
-            $from   = strtoupper($from);
-            $to     = strtoupper($to);
+
             $params = [
                 'query' => [
                     'fsym'  => $from,
