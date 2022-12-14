@@ -1,6 +1,12 @@
 # coin_currency
 
+## 簡單範例
 [TWD-USD](https://api.jim-kk.com/api/currency/converter?from=TWD&to=USD)
+```text
+https://api.jim-kk.com/api/currency/converter?from={}&to={}
+{} = 法定/虛擬 英文code (可以不區分大小寫)
+```
+
 ```text
 require 'vendor/autoload.php';
 
