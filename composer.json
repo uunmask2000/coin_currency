@@ -8,7 +8,7 @@
             "role": "Developer"
         }
     ],
-    "description": "",
+    "description": "提供法定(虛擬)貨幣api",
     "type": "library",
     "license": "LGPL-3.0",
     "minimum-stability": "stable",
