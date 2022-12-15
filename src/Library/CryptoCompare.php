@@ -1,13 +1,4 @@
 <?php
-/*
- * @Arthur: kk
- * @Date: 2022-01-04 11:48:49
- * @LastEditTime: 2022-01-04 11:52:00
- * @LastEditors: your name
- * @Description: 自動生成 [嚴格紀律 Description]
- * @FilePath: \coin_currency\src\Library\CryptoCompare.php
- * 嚴格紀律
- */
 
 namespace Library;
 
