@@ -19,12 +19,12 @@
         "php": ">=7.2",
         "ext-simplexml": "*",
         "ext-xml": "*",
-        "guzzlehttp/guzzle": "*"
+        "guzzlehttp/guzzle": "7.5.0"
     },
     "require-dev": {
         "ext-dom": "*",
         "ext-zip": "*",
-        "phpunit/phpunit": "^9 || ^8 || ^7"
+        "phpunit/phpunit": "9.5.27"
     },
     "suggest": {
         "ext-zip": "Needed to store or download multiple files at once."
