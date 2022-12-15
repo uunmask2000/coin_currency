@@ -1,11 +1,15 @@
 <?php
-/*
- * @Arthur: kk
- * @Date: 2022-01-04 11:50:33
- * @LastEditTime: 2022-01-04 12:21:35
- * @LastEditors: your name
- * @Description: 自動生成 [嚴格紀律 Description]
- * @FilePath: \coin_currency\test\test.php
- * 嚴格紀律
- */
-// use
+require('vendor/autoload.php');
+
+
+use uunmask2000_kk\CoinCurrency\CoinCurrency;
+
+$coinCurrency = new CoinCurrency();
+// var_dump($coinCurrency);
+foreach ($coinCurrency as $key => $value) {
+    // $tmp = $key->call_A2B();
+    // print_r($key);
+    print_r($coinCurrency->$key->call_A2B());
+}
+// print_r($coinCurrency->CryptoCompare->historyDays());
+// print_r($coinCurrency->Freecurrencyrates->historyDays());
