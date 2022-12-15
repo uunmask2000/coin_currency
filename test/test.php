@@ -10,6 +10,8 @@ foreach ($coinCurrency as $key => $value) {
     // $tmp = $key->call_A2B();
     // print_r($key);
     print_r($coinCurrency->$key->call_A2B());
+    print_r($coinCurrency->$key->historyDays());
 }
+// print_r($coinCurrency->Freecurrencyrates->call_A2B());
 // print_r($coinCurrency->CryptoCompare->historyDays());
 // print_r($coinCurrency->Freecurrencyrates->historyDays());
