@@ -1,5 +1,7 @@
 # coin_currency
 
+## 目前支持3家
+
 ## 簡單範例
 
 [TWD-USD](https://api.jim-kk.com/api/currency/converter?from=TWD&to=USD)
