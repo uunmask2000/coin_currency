@@ -16,4 +16,4 @@ $coinCurrency = new CoinCurrency();
 // print_r($coinCurrency->CryptoCompare->historyDays());
 // print_r($coinCurrency->Freecurrencyrates->historyDays());
 
-print_r($coinCurrency->CoinMarketCap->call_A2B());
+print_r($coinCurrency->CoinMarketCap->call_A2B('SGD', 'TWD'));

@@ -27,9 +27,9 @@ class CoinMarketCap
     {
         $id = 0;
         try {
-            $id = self::getCryptocurrencyId($code);
+            $id = self::getFiatId($code);
             if ($id == 0) {
-                $id = self::getFiatId($code);
+                $id = self::getCryptocurrencyId($code);
             }
             return $id;
         } catch (\Throwable $th) {
@@ -122,10 +122,6 @@ class CoinMarketCap
             $fromId = self::getFindId($from);
             $toId =   self::getFindId($to);
             $client = new Client();
-
-
-
-
             $params = [
                 'query' => [
                     'amount'  => 1,
