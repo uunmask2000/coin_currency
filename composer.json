@@ -30,9 +30,6 @@
         "ext-zip": "Needed to store or download multiple files at once."
     },
     "config": {
-        "platform": {
-            "php": "7.4.0"
-        },
         "optimize-autoloader": true,
         "sort-packages": true
     },
