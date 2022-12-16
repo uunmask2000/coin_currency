@@ -9,6 +9,7 @@ use Library\Freecurrencyrates;
 
 class CoinCurrency
 {
+
     /**
      * __construct
      *
@@ -16,8 +17,11 @@ class CoinCurrency
      */
     public function __construct()
     {
+        // A
         $this->CryptoCompare = new CryptoCompare();
+        // B
         $this->Freecurrencyrates = new Freecurrencyrates();
+        // C
         $this->CoinMarketCap = new CoinMarketCap();
     }
 }
