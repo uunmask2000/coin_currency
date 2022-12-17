@@ -202,7 +202,7 @@ class CoinMarketCap
             // 限制比數
             $params = [
                 'query' => [
-                    'limit'  => (int)($limit),
+                    'limit'  => (int)($limit) > 5000 ? 5000 : (int)($limit),
                 ],
             ];
 
