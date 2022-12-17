@@ -50,8 +50,8 @@ class Freecurrencyrates
                 }
             }
             return $tmp;
-        } catch (\Throwable $th) {
-            echo $th->getMessage();
+        } catch (GuzzleException $th) {
+            // echo $th->getMessage();
             return [];
         }
     }
@@ -70,6 +70,7 @@ class Freecurrencyrates
         $output['A_B']      = $from . '-' . $to;
         $output['rate']     = 0;
         $output['original'] = 0;
+        $output['error'] = "";
         try {
             $array = self::getData($from, $to);
             if (!empty($array)) {
@@ -79,6 +80,7 @@ class Freecurrencyrates
 
             return $output;
         } catch (\Throwable $th) {
+            $output['error'] = $th->getMessage();
             return $output;
         }
     }
@@ -95,6 +97,7 @@ class Freecurrencyrates
     {
         $output['A_B']      = $from . '-' . $to;
         $output['historyDays'] = [];
+        $output['error'] = "";
         try {
             $array = self::getData($from, $to);
             if (!empty($array)) {
@@ -109,6 +112,7 @@ class Freecurrencyrates
 
             return $output;
         } catch (\Throwable $th) {
+            $output['error'] = $th->getMessage();
             return $output;
         }
     }

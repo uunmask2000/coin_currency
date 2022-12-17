@@ -22,7 +22,7 @@ class CryptoCompare
         $output['A_B']      = $from . '-' . $to;
         $output['rate']     = 0;
         $output['original'] = 0;
-
+        $output['error'] = "";
         try {
             $from   = strtoupper($from);
             $to     = strtoupper($to);
@@ -52,7 +52,8 @@ class CryptoCompare
             $output['rate']     = $resp;
             $output['original'] = $resp;
             return $output;
-        } catch (GuzzleException $e) {
+        } catch (\Throwable $e) {
+            $output['error'] = $e->getMessage();
             return $output;
             // return $dd->simple_json(0, $th->getMessage());
         }
@@ -71,6 +72,7 @@ class CryptoCompare
     {
         $output['A_B']      = $from . '-' . $to;
         $output['historyDays'] = [];
+        $output['error'] = "";
         try {
             $from   = strtoupper($from);
             $to     = strtoupper($to);
@@ -101,6 +103,7 @@ class CryptoCompare
 
             return $output;
         } catch (\Throwable $th) {
+            $output['error'] = $th->getMessage();
             return $output;
         }
     }

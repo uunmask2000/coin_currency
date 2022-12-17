@@ -4,6 +4,8 @@ namespace Library;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Pool;
+use GuzzleHttp\Psr7\Request;
 
 class CoinMarketCap
 {
@@ -116,7 +118,7 @@ class CoinMarketCap
         $output['A_B'] = $from . '-' . $to;
         $output['rate'] = 0;
         $output['original'] = 0;
-
+        $output['error'] = "";
         try {
 
             $fromId = self::getFindId($from);
@@ -138,7 +140,8 @@ class CoinMarketCap
             $output['original'] = $resp;
             return $output;
         } catch (\Throwable $th) {
-            echo $th->getMessage();
+            // echo $th->getMessage();
+            $output['error'] = $th->getMessage();
             return $output;
         }
     }
@@ -158,6 +161,7 @@ class CoinMarketCap
         $to     = strtoupper($to);
         $output['A_B']      = $from . '-' . $to;
         $output['historyDays'] = [];
+        $output['error'] = "";
         try {
             $fromId = self::getFindId($from);
             $toId =   self::getFindId($to);
@@ -177,8 +181,46 @@ class CoinMarketCap
             }
             return $output;
         } catch (\Throwable $th) {
-            echo $th->getMessage();
+            // echo $th->getMessage();
+            $output['error'] = $th->getMessage();
             return $output;
         }
+    }
+
+    /**
+     * getAllSymbol
+     *
+     * @return mixed
+     */
+    public function getAllSymbol($limit = 5000)
+    {
+        $client = new Client();
+        $promises = [];
+        $output = [];
+        $output['error'] = "";
+        try {
+            // 限制比數
+            $params = [
+                'query' => [
+                    'limit'  => (int)($limit),
+                ],
+            ];
+
+            $promises['flat'] = $client->getAsync(self::$fiat_url, $params);
+            $promises['cryptocurrency'] = $client->getAsync(self::$cryptocurrency_url, $params);
+            $responses = \GuzzleHttp\Promise\Utils::unwrap($promises);
+            foreach ($responses as $key => $value) {
+                $resp = json_decode($value->getBody(), true);
+                $output[$key] = array_column($resp['data'], null, 'symbol');
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+            $output['flat'] = [];
+            $output['cryptocurrency'] = [];
+            $output['error'] = $th->getMessage();
+        }
+
+
+        return $output;
     }
 }
