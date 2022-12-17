@@ -1,6 +1,14 @@
 # coin_currency
 
+## API doc
+
+[api-doc](https://apidoc.jim-kk.com/)
+
 ## 目前支持3家
+
+- CoinMarketCap
+- CryptoCompare
+- Freecurrencyrates
 
 ## 簡單範例
 
