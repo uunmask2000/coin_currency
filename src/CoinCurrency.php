@@ -1,14 +1,19 @@
 <?php
 
 # use CoinCurrency
-namespace uunmask2000_kk\CoinCurrency;
+namespace CoinCurrencyService;
 
-use Library\CoinMarketCap;
-use Library\CryptoCompare;
-use Library\Freecurrencyrates;
+use CoinCurrencyService\Library\CoinMarketCap;
+use CoinCurrencyService\Library\CryptoCompare;
+use CoinCurrencyService\Library\Freecurrencyrates;
 
 class CoinCurrency
 {
+
+    public $CryptoCompare;
+    public $Freecurrencyrates;
+    public $CoinMarketCap;
+
 
     /**
      * __construct

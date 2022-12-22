@@ -34,9 +34,9 @@
         "sort-packages": true
     },
     "autoload": {
-        "classmap": [
-            "src/"
-        ]
+        "psr-4": {
+            "CoinCurrencyService\\": "src"
+        }
     },
     "extra": {
         "branch-alias": {}

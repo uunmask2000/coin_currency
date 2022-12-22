@@ -1,8 +1,9 @@
 <?php
+
 require('vendor/autoload.php');
 
 
-use uunmask2000_kk\CoinCurrency\CoinCurrency;
+use CoinCurrencyService\CoinCurrency;
 
 $coinCurrency = new CoinCurrency();
 // var_dump($coinCurrency);
@@ -19,4 +20,4 @@ $coinCurrency = new CoinCurrency();
 // print_r($coinCurrency->CoinMarketCap->call_A2B('SGD', 'TWD'));
 
 
-$coinCurrency->CoinMarketCap->getAllSymbol(2);
+print_r($coinCurrency->CoinMarketCap->getAllSymbol(2));

@@ -1,6 +1,6 @@
 <?php
 
-namespace Library;
+namespace CoinCurrencyService\Library;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
