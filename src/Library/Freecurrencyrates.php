@@ -2,6 +2,7 @@
 
 namespace CoinCurrencyService\Library;
 
+use CoinCurrencyService\Common\DAO;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 
@@ -74,8 +75,12 @@ class Freecurrencyrates
         try {
             $array = self::getData($from, $to);
             if (!empty($array)) {
-                $output['rate']     = bcmul($array[0][1], 1, 3);
-                $output['original'] = bcmul($array[0][1], 1, 3);
+                $resp = $array[0][1];
+                $resp = DAO::businessBcmul($resp);
+                $output['rate']     = $resp;
+                $output['original'] = $resp;
+                // $output['rate']     = bcmul($array[0][1], 1, 3);
+                // $output['original'] = bcmul($array[0][1], 1, 3);
             }
 
             return $output;
@@ -102,10 +107,11 @@ class Freecurrencyrates
             $array = self::getData($from, $to);
             if (!empty($array)) {
                 foreach ($array as $key => $value) {
+                    $respTmp = $value[1];
                     $output['historyDays'][] = [
                         'time' => strtotime($value[0]),
-                        'rate' => bcmul($value[1], 1, 3),
-                        'original' => bcmul($value[1], 1, 3),
+                        'rate' => DAO::businessBcmul($respTmp),
+                        'original' => DAO::businessBcmul($respTmp),
                     ];
                 }
             }

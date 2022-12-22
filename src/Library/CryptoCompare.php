@@ -2,6 +2,7 @@
 
 namespace CoinCurrencyService\Library;
 
+use CoinCurrencyService\Common\DAO;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 
@@ -17,7 +18,7 @@ class CryptoCompare
      *
      * @return mixed
      */
-    public static function call_A2B($from = 'USDT', $to = 'TWD') : array
+    public static function call_A2B($from = 'USDT', $to = 'TWD'): array
     {
         $output['A_B']      = $from . '-' . $to;
         $output['rate']     = 0;
@@ -42,12 +43,12 @@ class CryptoCompare
                 ],
             ];
             $resp = $client->request('get', $url, $params);
-            // $resp = json_decode($resp->getBody(), true)[$to];
             $resp = json_decode($resp->getBody(), true);
             $resp = $resp[$to];
 
+
             # 平均 0.88
-            $resp = bcmul($resp, 0.55, 3);
+            $resp = DAO::businessBcmul($resp, 0.55);
             // return $resp;
             $output['rate']     = $resp;
             $output['original'] = $resp;
@@ -68,7 +69,7 @@ class CryptoCompare
      *
      * @return mixed
      */
-    public static function historyDays($from = 'USDT', $to = 'TWD') : array
+    public static function historyDays($from = 'USDT', $to = 'TWD'): array
     {
         $output['A_B']      = $from . '-' . $to;
         $output['historyDays'] = [];
@@ -92,10 +93,11 @@ class CryptoCompare
             $resp = json_decode($resp->getBody(), true);
             if (!empty($resp['Data']['Data'])) {
                 foreach ($resp['Data']['Data'] as $key => $value) {
+                    $respTmp = $value['close'];
                     $output['historyDays'][] = [
                         'time' => $value['time'],
-                        'rate' => bcmul($value['close'], 0.55, 3),
-                        'original' => bcmul($value['close'], 0.55, 3),
+                        'rate' => DAO::businessBcmul($respTmp, 0.55),
+                        'original' => DAO::businessBcmul($respTmp, 0.55),
                     ];
                 }
             }

@@ -2,6 +2,7 @@
 
 namespace CoinCurrencyService\Library;
 
+use CoinCurrencyService\Common\DAO;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Pool;
@@ -134,7 +135,8 @@ class CoinMarketCap
             $resp = $client->request('get', self::$conversion_url, $params);
             $resp = json_decode($resp->getBody(), true);
             $resp = $resp['data']['quote'][0]['price'] ?? 0;
-            $resp = bcmul($resp, 1, 3);
+            // $resp = bcmul($resp, 1, 3);
+            $resp = DAO::businessBcmul($resp);
             // return $resp;
             $output['rate']     = $resp;
             $output['original'] = $resp;
@@ -172,10 +174,11 @@ class CoinMarketCap
             // print_r($resp['data']);
             foreach ($resp['data']['points'] as $key => $value) {
                 // print_r($value['c'][0]);
+                $respTmp = $value['c'][0];
                 $tmp = [
                     'time' => $key,
-                    'rate' => bcmul($value['c'][0] ?? 0, 1, 3),
-                    'original' => bcmul($value['c'][0] ?? 0, 1, 3),
+                    'rate' => DAO::businessBcmul($respTmp),
+                    'original' => DAO::businessBcmul($respTmp),
                 ];
                 $output['historyDays'][] = $tmp;
             }
