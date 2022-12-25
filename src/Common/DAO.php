@@ -5,10 +5,9 @@ namespace CoinCurrencyService\Common;
 class DAO
 {
 
+
     /**
      * businessBcmul
-     *
-     * 統一匯率 結構
      *
      * @param int $amount
      * @param int $a
@@ -16,7 +15,7 @@ class DAO
      *
      * @return mixed
      */
-    public static function businessBcmul($amount = 0, $a = 1, $b = 16)
+    public static function businessBcmul($amount = 0, $a = 1, $b = 16) : float
     {
         try {
             $amount = bcmul($amount, $a, $b);
@@ -24,6 +23,6 @@ class DAO
             //throw $th;
             $amount = 0;
         }
-        return $amount;
+        return doubleval($amount);
     }
 }
