@@ -56,15 +56,15 @@ class CoinMarketCap
             $client = new Client();
             $params = [
                 'query' => [
-                    'symbol'  => $symbol,
+                    'symbol' => $symbol,
                 ],
             ];
-            $resp = $client->request('get', self::$cryptocurrency_url, $params);
-            $resp = json_decode($resp->getBody(), true);
+            $resp   = $client->request('get', self::$cryptocurrency_url, $params);
+            $resp   = json_decode($resp->getBody(), true);
 
-            $tmp = $resp['data'];
+            $tmp    = $resp['data'];
             // print_r($tmp);
-            $arr = array_column($tmp, 'id', 'symbol');
+            $arr    = array_column($tmp, 'id', 'symbol');
             // print_r($arr);
             $output = $arr[$symbol] ?? 0;
 
@@ -88,12 +88,12 @@ class CoinMarketCap
         try {
 
             $client = new Client();
-            $resp = $client->request('get', self::$fiat_url);
-            $resp = json_decode($resp->getBody(), true);
+            $resp   = $client->request('get', self::$fiat_url);
+            $resp   = json_decode($resp->getBody(), true);
 
-            $tmp = $resp['data'];
+            $tmp    = $resp['data'];
             // print_r($tmp);
-            $arr = array_column($tmp, 'id', 'symbol');
+            $arr    = array_column($tmp, 'id', 'symbol');
             // print_r($arr);
             $output = $arr[$symbol] ?? 0;
 
@@ -114,29 +114,29 @@ class CoinMarketCap
      */
     public static function call_A2B($from = 'USD', $to = 'TWD'): array
     {
-        $from   = strtoupper($from);
-        $to     = strtoupper($to);
-        $output['A_B'] = $from . '-' . $to;
-        $output['rate'] = 0;
+        $from               = strtoupper($from);
+        $to                 = strtoupper($to);
+        $output['A_B']      = $from . '-' . $to;
+        $output['rate']     = 0;
         $output['original'] = 0;
-        $output['error'] = "";
+        $output['error']    = "";
         try {
 
-            $fromId = self::getFindId($from);
-            $toId =   self::getFindId($to);
-            $client = new Client();
-            $params = [
+            $fromId             = self::getFindId($from);
+            $toId               = self::getFindId($to);
+            $client             = new Client();
+            $params             = [
                 'query' => [
-                    'amount'  => 1,
-                    'convert_id'  => $toId,
-                    'id'  =>   $fromId,
+                    'amount' => 1,
+                    'convert_id' => $toId,
+                    'id' => $fromId,
                 ],
             ];
-            $resp = $client->request('get', self::$conversion_url, $params);
-            $resp = json_decode($resp->getBody(), true);
-            $resp = $resp['data']['quote'][0]['price'] ?? 0;
+            $resp               = $client->request('get', self::$conversion_url, $params);
+            $resp               = json_decode($resp->getBody(), true);
+            $resp               = $resp['data']['quote'][0]['price'] ?? 0;
             // $resp = bcmul($resp, 1, 3);
-            $resp = DAO::businessBcmul($resp);
+            $resp               = DAO::businessBcmul($resp);
             // return $resp;
             $output['rate']     = $resp;
             $output['original'] = $resp;
@@ -157,25 +157,25 @@ class CoinMarketCap
      *
      * @return array
      */
-    public static function historyDays($from = 'USD', $to = 'TWD'): array
+    public static function historyDays($from = 'USD', $to = 'TWD', $day = '1D'): array
     {
-        $from   = strtoupper($from);
-        $to     = strtoupper($to);
-        $output['A_B']      = $from . '-' . $to;
+        $from                  = strtoupper($from);
+        $to                    = strtoupper($to);
+        $output['A_B']         = $from . '-' . $to;
         $output['historyDays'] = [];
-        $output['error'] = "";
+        $output['error']       = "";
         try {
             $fromId = self::getFindId($from);
-            $toId =   self::getFindId($to);
+            $toId   = self::getFindId($to);
             $client = new Client();
-            $url = vsprintf(self::$history_url, [$fromId, $toId, '1D']);
-            $resp = $client->request('get', $url);
-            $resp = json_decode($resp->getBody(), true);
+            $url    = vsprintf(self::$history_url, [$fromId, $toId, $day]);
+            $resp   = $client->request('get', $url);
+            $resp   = json_decode($resp->getBody(), true);
             // print_r($resp['data']);
             foreach ($resp['data']['points'] as $key => $value) {
                 // print_r($value['c'][0]);
-                $respTmp = $value['c'][0];
-                $tmp = [
+                $respTmp                 = $value['c'][0];
+                $tmp                     = [
                     'time' => $key,
                     'rate' => DAO::businessBcmul($respTmp),
                     'original' => DAO::businessBcmul($respTmp),
@@ -197,30 +197,30 @@ class CoinMarketCap
      */
     public function getAllSymbol($limit = 5000)
     {
-        $client = new Client();
-        $promises = [];
-        $output = [];
+        $client          = new Client();
+        $promises        = [];
+        $output          = [];
         $output['error'] = "";
         try {
             // 限制比數
-            $params = [
+            $params                     = [
                 'query' => [
-                    'limit'  => (int)($limit) > 5000 ? 5000 : (int)($limit),
+                    'limit' => (int) ($limit) > 5000 ? 5000 : (int) ($limit),
                 ],
             ];
 
-            $promises['flat'] = $client->getAsync(self::$fiat_url, $params);
+            $promises['flat']           = $client->getAsync(self::$fiat_url, $params);
             $promises['cryptocurrency'] = $client->getAsync(self::$cryptocurrency_url, $params);
-            $responses = \GuzzleHttp\Promise\Utils::unwrap($promises);
+            $responses                  = \GuzzleHttp\Promise\Utils::unwrap($promises);
             foreach ($responses as $key => $value) {
-                $resp = json_decode($value->getBody(), true);
+                $resp         = json_decode($value->getBody(), true);
                 $output[$key] = array_column($resp['data'], null, 'symbol');
             }
         } catch (\Throwable $th) {
             //throw $th;
-            $output['flat'] = [];
+            $output['flat']           = [];
             $output['cryptocurrency'] = [];
-            $output['error'] = $th->getMessage();
+            $output['error']          = $th->getMessage();
         }
 
 
