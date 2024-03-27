@@ -167,11 +167,45 @@ class CoinMarketCap
         try {
             $fromId = self::getFindId($from);
             $toId   = self::getFindId($to);
+            return self::historyById($fromId, $toId, $day);
+            // $client = new Client();
+            // $url    = vsprintf(self::$history_url, [$fromId, $toId, $day]);
+            // $resp   = $client->request('get', $url);
+            // $resp   = json_decode($resp->getBody(), true);
+            // // print_r($resp['data']);
+            // foreach ($resp['data']['points'] as $key => $value) {
+            //     // print_r($value['c'][0]);
+            //     $respTmp                 = $value['c'][0];
+            //     $tmp                     = [
+            //         'time' => $key,
+            //         'rate' => DAO::businessBcmul($respTmp),
+            //         'original' => DAO::businessBcmul($respTmp),
+            //     ];
+            //     $output['historyDays'][] = $tmp;
+            // }
+            // return $output;
+        } catch (\Throwable $th) {
+            // echo $th->getMessage();
+            $output['error'] = $th->getMessage();
+            return $output;
+        }
+    }
+
+
+    /**
+     * @param string $fromId
+     * @param string $toId
+     * @param string $day
+     * 
+     * @return array
+     */
+    public static function historyById($fromId = '1', $toId = '1', $day = '1D'): array
+    {
+        try {
             $client = new Client();
-            $url    = vsprintf(self::$history_url, [$fromId, $toId, $day]);
+            $url    = vsprintf(self::$history_url, [$fromId, $toId, $day]); 
             $resp   = $client->request('get', $url);
-            $resp   = json_decode($resp->getBody(), true);
-            // print_r($resp['data']);
+            $resp   = json_decode($resp->getBody(), true); 
             foreach ($resp['data']['points'] as $key => $value) {
                 // print_r($value['c'][0]);
                 $respTmp                 = $value['c'][0];
