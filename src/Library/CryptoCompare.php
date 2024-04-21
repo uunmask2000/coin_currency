@@ -8,7 +8,7 @@ use GuzzleHttp\Exception\GuzzleException;
 
 class CryptoCompare
 {
-
+    public static $api_host = 'https://min-api.cryptocompare.com';
 
     /**
      * call_A2B
@@ -33,7 +33,7 @@ class CryptoCompare
                 return $output;
             }
             //使用GuzzleHTTP发送get请求
-            $url    = 'https://min-api.cryptocompare.com/data/price';
+            $url    = self::$api_host . '/data/price';
             $client = new Client();
 
             $params = [
@@ -79,7 +79,7 @@ class CryptoCompare
             $to     = strtoupper($to);
 
 
-            $url    = 'https://min-api.cryptocompare.com/data/v2/histoday';
+            $url    = self::$api_host . '/data/v2/histoday';
             $client = new Client();
 
             $params = [
