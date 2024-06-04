@@ -11,12 +11,24 @@ use GuzzleHttp\Psr7\Request;
 class CoinMarketCap
 {
 
-    static $fiat_url = 'https://web-api.coinmarketcap.com/v1/fiat/map';
-    static $cryptocurrency_url = 'https://web-api.coinmarketcap.com/v1/cryptocurrency/map';
+    static $fiat_url = 'https://pro-api.coinmarketcap.com/v1/fiat/map';
+    static $cryptocurrency_url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/map';
 
     static $history_url = 'https://api.coinmarketcap.com/data-api/v3/cryptocurrency/detail/chart?id=%s&convertId=%s&range=%s';
 
     static $conversion_url = 'https://api.coinmarketcap.com/data-api/v3/tools/price-conversion';
+    private $cmc_pro_api_key;
+
+    /**
+     * 
+     * 
+     * @param mixed $CoinMarketCapConf
+     */
+    public function __construct($CoinMarketCapConf)
+    {
+        // api-key
+        $this->cmc_pro_api_key =  $CoinMarketCapConf['cmc_pro_api_key'] ?? '-';
+    }
 
 
     /**
@@ -203,9 +215,9 @@ class CoinMarketCap
     {
         try {
             $client = new Client();
-            $url    = vsprintf(self::$history_url, [$fromId, $toId, $day]); 
+            $url    = vsprintf(self::$history_url, [$fromId, $toId, $day]);
             $resp   = $client->request('get', $url);
-            $resp   = json_decode($resp->getBody(), true); 
+            $resp   = json_decode($resp->getBody(), true);
             foreach ($resp['data']['points'] as $key => $value) {
                 // print_r($value['c'][0]);
                 $respTmp                 = $value['c'][0];
@@ -240,9 +252,9 @@ class CoinMarketCap
             $params                     = [
                 'query' => [
                     'limit' => (int) ($limit) > 5000 ? 5000 : (int) ($limit),
-                ],
+                    'CMC_PRO_API_KEY' => $this->cmc_pro_api_key 
+                ]
             ];
-
             $promises['flat']           = $client->getAsync(self::$fiat_url, $params);
             $promises['cryptocurrency'] = $client->getAsync(self::$cryptocurrency_url, $params);
             $responses                  = \GuzzleHttp\Promise\Utils::unwrap($promises);

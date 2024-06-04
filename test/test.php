@@ -5,7 +5,12 @@ require('vendor/autoload.php');
 
 use CoinCurrencyService\CoinCurrency;
 
-$coinCurrency = new CoinCurrency();
+$coinCurrency = new CoinCurrency(
+    [
+        'cmc_pro_api_key' => ''
+    ]
+);
+
 // var_dump($coinCurrency);
 // foreach ($coinCurrency as $key => $value) {
 //     // $tmp = $key->call_A2B();
@@ -19,6 +24,6 @@ $coinCurrency = new CoinCurrency();
 
 // print_r($coinCurrency->CoinMarketCap->call_A2B('SGD', 'TWD'));
 
-
+print_r($coinCurrency->CoinMarketCap->getAllSymbol(2));
 // print_r($coinCurrency->CoinMarketCap->getAllSymbol(2));
-print_r($coinCurrency->CoinMarketCap->historyById(1,2));
+// print_r($coinCurrency->CoinMarketCap->historyById(1,2));

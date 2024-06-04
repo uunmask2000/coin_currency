@@ -13,20 +13,20 @@ class CoinCurrency
     public $CryptoCompare;
     public $Freecurrencyrates;
     public $CoinMarketCap;
-
-
+ 
     /**
-     * __construct
-     *
-     * @return void
+     * 
+     * 
+     * 
+     * @param mixed $CoinMarketCapConf  [array conf]
      */
-    public function __construct()
+    public function __construct($CoinMarketCapConf)
     {
         // A
         $this->CryptoCompare = new CryptoCompare();
         // B
         $this->Freecurrencyrates = new Freecurrencyrates();
         // C
-        $this->CoinMarketCap = new CoinMarketCap();
+        $this->CoinMarketCap = new CoinMarketCap($CoinMarketCapConf);
     }
 }

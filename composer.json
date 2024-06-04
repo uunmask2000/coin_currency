@@ -19,7 +19,8 @@
         "php": ">=7.2",
         "ext-simplexml": "*",
         "ext-xml": "*",
-        "guzzlehttp/guzzle": "7.5.0"
+        "guzzlehttp/guzzle": "7.5.0",
+        "symfony/var-dumper": "^7.1"
     },
     "require-dev": {
         "ext-dom": "*",
